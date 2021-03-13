@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Tekil Post</title>
+{% endblock %}
+{% block content %}
+
+      <!--Post-->
+      <div class="container">
+        <div class="col-lg-12">
+            <div class="card post-card bg-dark text-white" style="margin-top:150px;padding:15px;">
+                <div class="card-title" style="text-align: center;font-size:35px;margin-top:30px;">{{post.title}}</div>
+                <div class="card-body">
+                    <div class="post-content">
+                      {{post.content}}
+                    </div>
+                    {% if post.yazan == current_user.username %}
+                    <button class="btn btn-info" data-toggle="modal" data-target="#edit" style="margin-top: 25px;">Düzenle</button>
+                    <div class="modal" tabindex="-1" id="edit" role="dialog">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title text-dark">Postu Düzenle</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{url_for('post',post_id=post.id)}}" method="POST">
+                                    {{form.hidden_tag()}}
+                                    {{form.title.label}}
+                                    {{form.title(class="form-control" , placeholder="Post Başlığı")}}
+                                    {{form.content.label}}
+                                    {{form.content(class="form-control post-text",placeholder="Post İçeriği")}}
+                                    {{form.submit(class="btn btn-primary",style="margin-top:15px;")}}
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger"><a style="color: white !important;text-decoration:none !important;" href="{{url_for('delete_post',post_id=post.id)}}">Postu Sil</a></button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
